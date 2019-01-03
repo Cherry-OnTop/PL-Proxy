@@ -13,13 +13,14 @@ app.use((req, res, next) => {
   if (endpoint === "main") {
     let proxy = "http://localhost:9001/" + path;
     request(proxy).pipe(res);
-    console.log(proxy);
+    // console.log(proxy);
   } else if (endpoint === "details") {
     let proxy = "http://localhost:9002/" + path;
-    console.log(proxy);
+    // console.log(proxy);
     request(proxy).pipe(res);
   } else if (endpoint === "critics") {
     let proxy = "http://localhost:9003/" + path;
+    console.log(proxy);
     request(proxy).pipe(res);
   } else if (endpoint === "sidebar") {
     let proxy = "http://localhost:9004/" + path;
