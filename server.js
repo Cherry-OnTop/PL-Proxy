@@ -1,8 +1,10 @@
 const express = require("express");
 const request = require("request");
 const app = express();
+// const cors = require("cors");
 
 app.use(express.static(__dirname));
+// app.use(cors());
 
 app.use((req, res, next) => {
   let url = req.url.split("/");
@@ -10,10 +12,11 @@ app.use((req, res, next) => {
   let endpoint = url[1];
   if (endpoint === "main") {
     let proxy = "http://localhost:9001/" + path;
-    console.log(proxy);
     request(proxy).pipe(res);
+    console.log(proxy);
   } else if (endpoint === "details") {
     let proxy = "http://localhost:9002/" + path;
+    console.log(proxy);
     request(proxy).pipe(res);
   } else if (endpoint === "critics") {
     let proxy = "http://localhost:9003/" + path;
