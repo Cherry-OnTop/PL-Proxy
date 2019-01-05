@@ -14,7 +14,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+/*
 app.use((req, res, next) => {
   let url = req.url.split("/");
   let path = url.slice(2).join("/");
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
     req.pipe(request(proxy)).pipe(res);
   }
 });
-
+*/
 app.get("/", (req, res) => {});
 
 app.listen(process.env.PORT || 3000);
