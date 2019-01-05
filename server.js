@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   let url = req.url.split("/");
-  let path = url.slice(2).join("/");
+  let path = url.slice(1).join("/");
   console.log(path);
   let endpoint = url[1];
   if (endpoint === "main") {
