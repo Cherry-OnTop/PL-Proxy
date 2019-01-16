@@ -1,44 +1,33 @@
-const express = require("express");
-const request = require("request");
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const path = require('path');
+const proxy = require('http-proxy-middleware');
+
+
 const app = express();
 
-app.use(express.static(__dirname));
+const port = process.env.PORT || 3000;
 
-app.use((req, res, next) => {
-  let url = req.url.split("/");
-  let path = url.slice(2).join("/");
-  let endpoint = url[1];
-  if (endpoint === "main") {
-    let proxy =
-      "http://ec2-3-17-128-193.us-east-2.compute.amazonaws.com/" + path;
-    request(proxy)
-      .on("error", err => console.log(err))
-      .pipe(res);
-  } else if (endpoint === "details") {
-    let proxy =
-      "http://ec2-18-218-63-15.us-east-2.compute.amazonaws.com/" + path;
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 
-    request(proxy)
-      .on("error", err => console.log(err))
-      .pipe(res);
-  } else if (endpoint === "critics") {
-    let proxy =
-      "http://ec2-3-16-138-173.us-east-2.compute.amazonaws.com/" + path;
-    request(proxy)
-      .on("error", err => console.log(err))
-      .pipe(res);
-  } else if (endpoint === "sidebar") {
-    if (path.includes("images")) {
-      path = "sidebar/" + path;
-    }
-    let proxy = "http://18.222.207.221:9004/" + path;
-    request(proxy)
-      .on("error", err => console.log(err))
-      .pipe(res);
-  }
+app.use('/:id', express.static(path.join(__dirname, 'public')));
+
+app.use('/api/items', proxy({
+    target: 'http://ec2-18-223-255-148.us-east-2.compute.amazonaws.com:3005'
+}));
+
+app.use('/api/pictures', proxy({
+    target: 'http://ec2-3-17-163-197.us-east-2.compute.amazonaws.com:5000'
+}));
+
+app.use('/api/booking', proxy({
+    target: 'http://ec2-18-222-217-73.us-east-2.compute.amazonaws.com:3008'
+}))
+
+app.listen(port, () => {
+  console.log(`server running at: http://localhost:${port}`);
 });
-
-app.get("/", (req, res) => {});
-
-let port = process.env.PORT || 3000;
-app.listen(port, () => console.log("Server listening on port " + port));
