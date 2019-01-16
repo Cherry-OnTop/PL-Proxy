@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 app.use('/:movieId', express.static(__dirname));
 
 app.use('/movie', proxy({
-    target: 'http://ec2-18-218-43-35.us-east-2.compute.amazonaws.com:9008'
+    target: 'http://ec2-3-17-32-68.us-east-2.compute.amazonaws.com:9008'
 }));
 
 // app.use('/api/pictures', proxy({
