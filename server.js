@@ -25,9 +25,9 @@ app.use('/movies', proxy({
     target: 'http://54.146.26.33'
 }));
 
-// app.use('/api/booking', proxy({
-//     target: 'http://ec2-18-222-217-73.us-east-2.compute.amazonaws.com:3008'
-// }))
+app.use('/movies', proxy({
+    target: 'http://ec2-3-16-200-137.us-east-2.compute.amazonaws.com'
+}))
 
 app.listen(port, () => {
   console.log(`server running at: http://localhost:${port}`);
