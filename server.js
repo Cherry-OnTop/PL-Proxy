@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
-app.use('/:movieId', express.static(__dirname));
+// '/:movieId', 
+
+app.use(express.static(__dirname));
 
 app.use('/movie', proxy({
     target: 'http://18.217.66.137'
